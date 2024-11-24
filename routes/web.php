@@ -14,17 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/docs', function () {
-    $path = resource_path('docs/api-documentation.md');
 
-    if (File::exists($path)) {
-        $markdown = File::get($path);
-        $html = (new Parsedown())->text($markdown);
-        return view('docs', ['Content' => $html]);
-    }
-
-    return abort(404, 'Documentation not found');
-});
-*/
 
 Route::resource('projects', 'ProjectsController');
