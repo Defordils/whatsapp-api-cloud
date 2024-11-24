@@ -7,11 +7,14 @@
     "require": {
         "php": "^8.0",
         "beyondcode/laravel-websockets": "^2.0@beta",
+        "darkaonline/l5-swagger": "^8.6",
+        "erusev/parsedown": "^1.7",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.7",
+        "psr/log": "^3.0",
         "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
