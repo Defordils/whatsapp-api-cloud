@@ -23,15 +23,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 */
 
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::middleware('auth:sanctum')->group(function () {
+    Route::prefix('chatroom')->group(function () {
+        Route::post('/create', [ChatroomController::class, 'create']);
+        Route::get('/', [ChatroomController::class, 'list']);
+        Route::post('/{id}/enter', [ChatroomController::class, 'enter']);
+        Route::post('/{id}/leave', [ChatroomController::class, 'leave']);
+    });
 
-Route::middleware('auth:sanctum')->group(function() {
-    Route::post('/chatroom/create', [ChatroomController::class, 'create']);
-    Route::get('/chatroom', [ChatroomController::class, 'list']);
-
-    Route::post('/message/send', [MessageController::class, 'send']);
-    Route::get('/message/{chatroomId}', [MessageController::class, 'list']);
+    Route::prefix('message')->group(function () {
+        Route::post('/send', [MessageController::class, 'sendMessage']);
+        Route::get('/chatroom/{id}/messages', [MessageController::class, 'listMessage']);
+    });
 });

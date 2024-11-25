@@ -7,8 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chatroom extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'max_members',
     ];
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }

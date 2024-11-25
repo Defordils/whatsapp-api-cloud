@@ -1,19 +1,361 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "My First API",
-        "version": "0.1"
+        "title": "L5 OpenApi",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "darius@matulionis.lt"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
     },
     "paths": {
-        "/projects": {
-            "get": {
-                "operationId": "35784db4e52882d2ff6599ea623179a7",
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Register a new user",
+                "description": "Create a new user account.",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Alex John"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "alex@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "alex1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Login a user",
+                "description": "Authenticate user and return an access token.",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "alex@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "alex1234"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
                 "responses": {
                     "200": {
-                        "description": "Display a listing of projects."
+                        "description": "Login successfully"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    }
+                }
+            }
+        },
+        "/api/chatroom/create": {
+            "post": {
+                "tags": [
+                    "Chatrooms"
+                ],
+                "summary": "Create a new chatroom",
+                "description": "Allows a user to create chatroom.",
+                "operationId": "63e43a3ce8bd8676a5536836eab1a75e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "max_members"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "General"
+                                    },
+                                    "max_members": {
+                                        "type": "integer",
+                                        "example": 50
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Chatroom created successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/chatroom": {
+            "get": {
+                "tags": [
+                    "Chatrooms"
+                ],
+                "summary": "List all chatrooms",
+                "description": "Retrieve a list of all chatrooms with pagination.",
+                "operationId": "95c532d48dca12c259749a4afec1906a",
+                "responses": {
+                    "200": {
+                        "description": "List of chatrooms returned"
+                    }
+                }
+            }
+        },
+        "/api/chatroom/{id}/leave": {
+            "post": {
+                "tags": [
+                    "Chatrooms"
+                ],
+                "summary": "Leave a chatroom",
+                "description": "Allows a user to leave chatroom.",
+                "operationId": "1a014158f594afca3d0654a8f9fe7586",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "the ID of the chatroom to leave",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User successfully left the chatroom",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You have successfully left the chatroom"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Chatroom not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Chatroom not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "User is not a member of chatroom",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "You are not a member of this chatroom"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatroom/{id}/enter": {
+            "post": {
+                "tags": [
+                    "Chatrooms"
+                ],
+                "summary": "Enter a chatroom",
+                "description": "Allows a user to join chatroom.",
+                "operationId": "2cdc6a7ac22c64f75fdd5de22da1c389",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Chatroom ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Entered chatroom successfully"
+                    },
+                    "404": {
+                        "description": "Chatroom not found"
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "description": "Home Page",
+                "operationId": "58658e34a5c8bd71c4a0afed6de10d20",
+                "responses": {
+                    "default": {
+                        "description": "welcome page"
+                    }
+                }
+            }
+        },
+        "/api/message/send": {
+            "post": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "Send a message",
+                "description": "Send a text or file attachment to chatroom.",
+                "operationId": "4955e9c7a5ba48720782732fee1db749",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "chatroom_id",
+                                    "message"
+                                ],
+                                "properties": {
+                                    "chatroom_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "message": {
+                                        "type": "integer",
+                                        "example": "Hello world"
+                                    },
+                                    "attachment": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "example": "file.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Message send successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/message/chatroom/{id}/messages": {
+            "get": {
+                "tags": [
+                    "Messages"
+                ],
+                "summary": "List messages in a chatroom",
+                "description": "Retrieve all messages for a specific chatroom.",
+                "operationId": "ce5671a209dbc17fe9c0f6e5e55a8c02",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Chatroom ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of messages returned"
                     }
                 }
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Authentication"
+        },
+        {
+            "name": "Chatrooms"
+        },
+        {
+            "name": "Messages"
+        }
+    ]
 }

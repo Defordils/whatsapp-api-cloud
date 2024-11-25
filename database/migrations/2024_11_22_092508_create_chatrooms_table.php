@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('chatrooms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedInteger('max_members')->default(50);
+            $table->integer('max_members')->default(50);
             $table->timestamps();
         });
     }

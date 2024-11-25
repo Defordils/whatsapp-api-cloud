@@ -5,22 +5,43 @@ namespace App\Http\Controllers;
 use App\Events\MessageSent;
 use App\Models\Message;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
 
-
-
-
+/**
+ * @OA\Tag(name="Messages")
+ */
 class MessageController extends Controller
 {
-    public function send(Request $request)
+    /**
+     * @OA\Post(
+     *     path="/api/message/send",
+     *     tags={"Messages"},
+     *     summary="Send a message",
+     *     description="Send a text or file attachment to chatroom.",
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *
+     *         @OA\JsonContent(
+     *             required={"chatroom_id", "message"},
+     *
+     *             @OA\Property(property="chatroom_id", type="integer", example=1),
+     *             @OA\Property(property="message", type="integer", example="Hello world"),
+     *             @OA\Property(property="attachment", type="string", format="binary", example="file.jpg")
+     *         )
+     *     ),
+     *
+     *     @OA\Response(response=201, description="Message send successfully"),
+     *     @OA\Response(response=400, description="Validation error")
+     * )
+     */
+    public function sendMessage(Request $request)
     {
 
         $request->validate([
             'chatroom_id' => 'required|exists:chatrooms, id',
-            'message' => 'mullable|string',
-            'attachment' => 'nullable|file|max:10240'
+            'message' => 'nullable|string',
+            'attachment' => 'nullable|file',
         ]);
-
 
         $filePath = null;
 
@@ -37,12 +58,32 @@ class MessageController extends Controller
 
         event(new MessageSent($message));
 
-        return response()->json($message);
+        return response()->json($message, 201);
     }
 
-    public function list($chatroomId)
+    /**
+     * @OA\Get(
+     *     path="/api/message/chatroom/{id}/messages",
+     *     tags={"Messages"},
+     *     summary="List messages in a chatroom",
+     *     description="Retrieve all messages for a specific chatroom.",
+     *
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Chatroom ID",
+     *         required=true,
+     *
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+     *
+     *     @OA\Response(response=200, description="List of messages returned")
+     * )
+     */
+    public function listMessage($chatroomId)
     {
-        return Message::where('chatroom_id', $chatroomId)->paginate(10);
+        $messages = Message::where('chatroom_id', $chatroomId)->paginate(10);
+
+        return response()->json($messages);
     }
-    
 }
