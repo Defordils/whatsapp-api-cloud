@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+
+    <!--Swagger UI CSS-->
+    <link rel="stylesheet" type="text/CSS" href="https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui.css" />
+
+    <!--Swagger UI JS-->
+    <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui-bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+</head>
+<body>
+    <div id="swagger-ui"></div>
+
+    <script>
+        const ui = SwaggerUIBundle({
+            url: "/storage/api-docs/api-docs.json",
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [
+                SwaggerUIBundle.presets,apis,
+                SwaggerUIStandalonePreset
+            ],
+        })
+    </script>
+</body>
+</html>
