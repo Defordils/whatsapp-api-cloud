@@ -9,25 +9,18 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- *      version ="1.0.0",
- *      title="L5 OpenApi",
- *      description="L5 Swagger OpenApi description",
+ *      version="8.6.3",
+ *      title="Whatsapp API Server",
+ *      description="L5 Swagger API Documentation",
  *
  *      @OA\Contact(
- *          email="darius@matulionis.lt"
+ *          email="ajmalmohd0501@gmail.com"
  *      ),
  *
  *      @OA\License(
  *          name="Apache 2.0",
- *          url="https://www.apache.org/licenses/LICENSE-2.0.html"
+ *          url="https://www.apache.org"
  *      )
- * )
- *
- * @OA\Get(
- *      path="/",
- *      description="Home Page",
- *
- *      @OA\Response(response="default", description="welcome page")
  * )
  */
 class Controller extends BaseController

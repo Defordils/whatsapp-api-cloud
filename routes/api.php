@@ -23,11 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 */
 
-
-Route::get('/documentation', function() {
-    return response()->file(public_path('docs/api-documentation.html'));
-});
-
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 

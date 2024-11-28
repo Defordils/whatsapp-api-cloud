@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,3 +12,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/', function () {
+    return response()->file(public_path('api-documentation.html'));
+});
+
+Route::get('/home', function () {
+    return view('welcome');
+});
