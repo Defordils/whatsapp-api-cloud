@@ -19,23 +19,30 @@ class AuthController extends Controller
      *     tags={"Authentication"},
      *     summary="Register a new user",
      *     description="Create a new user account.",
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             required={"name", "email", "password", "password_confirmation"},
+     *
      *             @OA\Property(property="name", type="string", example="Alex John"),
      *             @OA\Property(property="email", type="string", example="alex@gmail.com"),
      *             @OA\Property(property="password", type="string", example="alex1234"),
      *             @OA\Property(property="password_confirmation", type="string", example="alex1234")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=201,
      *         description="User registered successfully",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="token", type="string", example="your-api-token-here")
      *         )
      *     ),
+     *
      *     @OA\Response(response=400, description="Validation error")
      * )
      */
@@ -69,21 +76,28 @@ class AuthController extends Controller
      *     tags={"Authentication"},
      *     summary="Login a user",
      *     description="Authenticate user and return an access token.",
+     *
      *     @OA\RequestBody(
      *         required=true,
+     *
      *         @OA\JsonContent(
      *             required={"email", "password"},
+     *
      *             @OA\Property(property="email", type="string", example="alex@gmail.com"),
      *             @OA\Property(property="password", type="string", example="alex1234")
      *         )
      *     ),
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Login successful",
+     *
      *         @OA\JsonContent(
+     *
      *             @OA\Property(property="token", type="string", example="your-api-token-here")
      *         )
      *     ),
+     *
      *     @OA\Response(response=401, description="Invalid credentials")
      * )
      */
@@ -96,14 +110,14 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $request->email)->first();
-        
-        if (!$user || !Hash::check($request->password, $user->password)) {
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json(['error' => 'Invalid credentials'], 401);
         }
 
         $token = $user->createToken('API Token')->plainTextToken;
 
         // Return API token after successful login
-        return response()->json(['message' => 'Login successful','token' => $token]);
+        return response()->json(['message' => 'Login successful', 'token' => $token]);
     }
 }

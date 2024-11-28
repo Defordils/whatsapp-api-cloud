@@ -6,6 +6,7 @@ namespace App\Swagger;
  * @OA\Schema(
  *     schema="Message",
  *     required={"id", "chatroom_id", "user_id", "message", "created_at", "updated_at"},
+ *
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="chatroom_id", type="integer", example=1),
  *     @OA\Property(property="user_id", type="integer", example=1),
